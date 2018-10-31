@@ -1,4 +1,10 @@
 #Run this script to connect to the Raspberry Pi Zero and configure its WiFi! 
+
+##PREREQUISITES!##
+# 1. Initial Pi setup boot must have been completed
+# 2. Drivers to USB SSH to Pi must be installed
+# 3. Bonjour must be installed 
+
 import os
 import paramiko 
 
