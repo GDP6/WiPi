@@ -1,14 +1,15 @@
 #Run this script to connect to the Raspberry Pi Zero and configure its WiFi! 
-
 import paramiko 
 
 #Takes in a paramiko client and a list of commands 
 def run_command(client, commands):
     for command in commands:
         stdin, stdout, stderr = client.exec_command(command)
-        results = stdout.readlines()
-        for result in results:
-            print(result)
+        return stdout.readlines()
+
+def print_results(results):
+    for result in results:
+        print(result)
 
 def wfile(f,text):
   f.write(text+"\n")
@@ -38,8 +39,12 @@ def main():
 
     #Pi commands 
     #List WiFi networks 
-    commands = ['iwlist wlan0 scan']
-    run_command(client, commands)
+    commands = ["sudo iwlist wlan0 scan | awk -F \':\' \'/ESSID:/ {print $2;}\'"]
+    results = run_command(client, commands)
+
+    count = 1 
+    for item in results: 
+        print(str(count) + ". %s" % item)
 
     print("Which network would you like?")
     wifi_ssid = input("SSID: ")
